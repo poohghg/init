@@ -10,6 +10,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store, wrapper } from "@/redux";
 import { useCallback, useState } from "react";
 import { darkTheme, lightTheme } from "@/styles/theme";
+import Layout from "@/component/Layout";
 
 function App({ Component, pageProps }: AppProps) {
   const queryClient = getClient();
@@ -28,7 +29,9 @@ function App({ Component, pageProps }: AppProps) {
             <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
               <GlobalStyle />
               <Gnb handleChangeTheme={handleChangeTheme} />
-              <Component {...pageProps} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
             </ThemeProvider>
           </Hydrate>
         </QueryClientProvider>

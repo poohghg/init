@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   
@@ -17,13 +17,11 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Noto Sans KR';
   }
   
-  @layer base {
-    #__next {
-      width: 100%;
-      height: 100%;
-    }
+  div#__next {
+    width: 100%;
+    height: 100%;
   }
-
+  
   a {
     color: inherit;
     text-decoration: none;

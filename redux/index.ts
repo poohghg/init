@@ -4,8 +4,8 @@ import {
   EnhancedStore,
   Store,
   ThunkAction,
-} from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
+} from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
 import {
   persistReducer,
   persistStore,
@@ -15,14 +15,14 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import { createWrapper, MakeStore } from 'next-redux-wrapper';
-import storage from 'redux-persist/lib/storage';
-import logger from 'redux-logger';
-import userReducer from '@/redux/userReducer';
+} from "redux-persist";
+import { createWrapper, MakeStore } from "next-redux-wrapper";
+import storage from "redux-persist/lib/storage";
+import logger from "redux-logger";
+import userReducer from "@/redux/userReducer";
 // config 작성
 const persistConfig = {
-  key: 'root', // localStorage key
+  key: "root", // localStorage key
   storage, // localStorage
   // whiteList:[]
   // persist 리듀서에서 제외할 리듀서
@@ -41,8 +41,11 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(logger),
-  devTools: process.env.NEXT_PUBLIC_NODE_ENV !== 'production',
+    }),
+
+  // redux logger
+  // .concat(logger),
+  // devTools: process.env.NEXT_PUBLIC_NODE_ENV !== 'production',
 });
 
 const setupStore = (context: any): EnhancedStore => store;
