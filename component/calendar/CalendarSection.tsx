@@ -1,27 +1,52 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useState } from "react";
+import { YYMMType } from "@/types/calendat";
+import MonthDates from "@/component/calendar/MonthList";
+import styled from "styled-components";
 
 interface Props {}
 
-type TypeYYMM = [number, number];
-
-function getTodayYYMM(): TypeYYMM {
+function getYYMM(): YYMMType {
   const today = new Date();
-  return [today.getFullYear(), today.getMonth() + 1];
+  return { year: today.getFullYear(), month: today.getMonth() + 1 };
 }
 
 const CalendarSection = ({}: Props) => {
-  const [selectedYYMM, setSelectedYYMM] = useState<TypeYYMM>(getTodayYYMM());
-  console.log("selectDate", selectedYYMM);
+  const [selectedYYMM, setSelectedYYMM] = useState<YYMMType>(getYYMM());
 
-  const selectedYYMMDaysInfo = useMemo(() => {
-    const [year, month] = selectedYYMM;
-    const selectedMMLength = new Date(year, Number(month), 0).getDate();
-    // const selectedMMDates = Array.from({});
-    console.log("selectedMMLength", selectedMMLength);
-    return null;
-  }, [selectedYYMM]);
+  const handleMoveMonth = (flag: "prev" | "next") => {
+    let { year, month } = selectedYYMM;
+    month = flag === "prev" ? --month : ++month;
 
-  return null;
+    const d = new Date(year, month, 0);
+    setSelectedYYMM({ year: d.getFullYear(), month: d.getMonth() + 1 });
+  };
+
+  return (
+    <>
+      <div>
+        <Button onClick={() => handleMoveMonth("prev")}>이전</Button>
+        <h1>
+          {selectedYYMM.year}/{selectedYYMM.month}
+        </h1>
+        <Button onClick={() => handleMoveMonth("next")}>다음</Button>
+      </div>
+      <MonthWrap>
+        <MonthDates {...selectedYYMM} />
+      </MonthWrap>
+    </>
+  );
 };
 
 export default memo(CalendarSection);
+
+const Button = styled.button`
+  width: 74px;
+  height: 50px;
+  color: black;
+`;
+
+const MonthWrap = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+`;

@@ -1,0 +1,23 @@
+// type
+export type YYMMType = {
+  year: number;
+  month: number;
+};
+
+export type DateType = {
+  date: number;
+  day: number;
+};
+
+export type SelectedYYMMDayInfoType = {
+  startDayInfo: DateType;
+  endDayInfo: DateType;
+};
+
+export type DateFlag = "prev" | "next" | "this";
+
+export type DatType = {
+  date: number;
+  strDate: string;
+  flag: DateFlag;
+};
