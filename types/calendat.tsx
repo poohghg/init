@@ -19,5 +19,6 @@ export type DateFlag = "prev" | "next" | "this";
 export type DatType = {
   date: number;
   strDate: string;
+  day: number;
   flag: DateFlag;
 };

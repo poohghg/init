@@ -1,52 +1,62 @@
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { YYMMType } from "@/types/calendat";
-import MonthDates from "@/component/calendar/MonthList";
+import CalendarDates from "@/component/calendar/CalendarDates";
 import styled from "styled-components";
+import DayLabels from "@/component/calendar/DayLabels";
+import CalendarHeader from "@/component/calendar/CalendarHeader";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux";
+import { setSelectedYYMM } from "@/redux/calendarReducer";
 
 interface Props {}
 
-function getYYMM(): YYMMType {
-  const today = new Date();
-  return { year: today.getFullYear(), month: today.getMonth() + 1 };
-}
-
 const CalendarSection = ({}: Props) => {
-  const [selectedYYMM, setSelectedYYMM] = useState<YYMMType>(getYYMM());
+  const selectedYYMM = useSelector(
+    (root: RootState) => root.calendar.selectedYYMM
+  );
+
+  const dispatch = useDispatch();
 
   const handleMoveMonth = (flag: "prev" | "next") => {
     let { year, month } = selectedYYMM;
     month = flag === "prev" ? --month : ++month;
-
     const d = new Date(year, month, 0);
-    setSelectedYYMM({ year: d.getFullYear(), month: d.getMonth() + 1 });
+    dispatch(
+      setSelectedYYMM({ year: d.getFullYear(), month: d.getMonth() + 1 })
+    );
   };
 
+  // console.log(monthRef.current);
+
   return (
-    <>
-      <div>
-        <Button onClick={() => handleMoveMonth("prev")}>이전</Button>
-        <h1>
-          {selectedYYMM.year}/{selectedYYMM.month}
-        </h1>
-        <Button onClick={() => handleMoveMonth("next")}>다음</Button>
-      </div>
+    <CalderWrap>
+      <CalendarHeader
+        selectedYYMM={selectedYYMM}
+        handleMoveMonth={handleMoveMonth}
+      />
       <MonthWrap>
-        <MonthDates {...selectedYYMM} />
+        <DayLabels />
+        <CalendarDates {...selectedYYMM} />
       </MonthWrap>
-    </>
+    </CalderWrap>
   );
 };
 
 export default memo(CalendarSection);
 
-const Button = styled.button`
-  width: 74px;
-  height: 50px;
-  color: black;
+const CalderWrap = styled.div`
+  height: 100%;
+  width: 100%;
 `;
 
 const MonthWrap = styled.div`
   width: 100%;
+  height: calc(100vh - 40px - 60px);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 30px;
+  //grid-auto-rows: minmax(
+  //  calc(100vh - 40px - 60px) / 7,
+  //  calc(100vh - 40px - 60px) / 6
+  //);
 `;
