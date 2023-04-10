@@ -6,14 +6,14 @@ import {
   useCallback,
   useEffect,
   useMemo,
-} from "react";
-import Day from "@/component/calendar/Day";
-import { DateFlag, DatType } from "@/types/calendat";
-import { number } from "prop-types";
-import day from "@/component/calendar/Day";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux";
-import { setSelectedDay } from "@/redux/calendarReducer";
+} from 'react';
+import Day from '@/component/calendar/Day';
+import { DateFlag, DatType } from '@/types/calendat';
+import { number } from 'prop-types';
+import day from '@/component/calendar/Day';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux';
+import { setSelectedDay } from '@/redux/calendarReducer';
 
 function getDateAndDay(year: number, month: number, date: number = 0) {
   const d = new Date(year, month, date);
@@ -25,7 +25,7 @@ function pushData(
   date: number,
   year: number,
   month: number,
-  flag: DateFlag = "this",
+  flag: DateFlag = 'this',
   day: number
 ) {
   const strDate = `${year.toString()}-${month.toString()}-${date.toString()}`;
@@ -53,12 +53,12 @@ const CalendarDates = ({ year, month }: Props) => {
 
     // 이전달 데이터를 생성한다.
     for (let i = prevDate - prevDay + 1; i <= prevDate; i++)
-      pushData(days, i, year, month - 1, "prev", dayIdx++);
+      pushData(days, i, year, month - 1, 'prev', dayIdx++);
     for (let i = 1; i <= thisDate; i++)
-      pushData(days, i, year, month, "this", dayIdx++);
+      pushData(days, i, year, month, 'this', dayIdx++);
     // 다음달 데이터를 생성한다.
     for (let i = 1; i <= remainingDay; i++)
-      pushData(days, i, year, month + 1, "next", dayIdx++);
+      pushData(days, i, year, month + 1, 'next', dayIdx++);
 
     return days;
   }, [year, month]);
